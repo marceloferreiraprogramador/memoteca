@@ -1,18 +1,33 @@
 <section class="container">
     <header class="header d-flex">
-        <h2 class="ff-inter" >Meu Mural</h2>
-        <button class="botao" routerLink="/criarPensamento">
-                Adicionar pensamento
+        <div class="buscar-pensamentos">
+            <input class="filtro" type="search" placeholder="o que voce preocura" autofocus [(ngModel)]="filtro" (keyup)="pesquisarPensamento()">
+            <img src="/assets/imagens/lupa.png">
+        </div>
+        <h2 class="ff-inter" >{{titulo}}</h2>
+        <div class="botoes">
+            <button class="botao" (click)="recarregarPensamentos()">
+                Meu mural
+            </button> 
+            <button class="botao" (click)="listarFavoritos()">
+                Meus favoritos
+            </button> 
+            <button class="botao" routerLink="/criarPensamento">
+                Criar pensamento
         </button>
+        </div>
+       
     </header>
-    <div class="mural" *ngIf="listaPensamentos.length > 0, else semPensamentos ">
+    <div class="mural" *ngIf="listaPensamentos.length; else semPensamentos ">
         <div *ngFor="let pensamento of listaPensamentos">
-            <app-pensamento [pensamento]="pensamento"></app-pensamento>
+            <app-pensamento [pensamento]="pensamento" [listaFavoritos]="listaFavoritos" ></app-pensamento>
         </div>
     </div>
     
 </section>
+<app-botao-carregar-mais [ahMaisPensamentos]="ahMaisPensamentos" (click)="carregarMaisPensamentos()">
 
+</app-botao-carregar-mais>
 <ng-template #semPensamentos>
     <div class="ff-inter sem-pensamentos">
             <p> Ainda não tem pensamentos cadastrados</p>
